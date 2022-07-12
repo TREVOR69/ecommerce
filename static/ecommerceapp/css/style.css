@@ -381,7 +381,7 @@ ul.btn li:last-child {
 /** banner section **/
 
 .banner_main {
-     background: url(../images/banner.jpg);
+     background: url(../images/honeycomb-bg.jpg);
      background-repeat: no-repeat;
      min-height: 900px;
      background-size: 100% 100%;
@@ -396,7 +396,7 @@ ul.btn li:last-child {
      content: "";
      width:50px; 
      height:40px;
-     background: url(../images/cross.png);
+     background: #FFFFFF;
      background-repeat: no-repeat;
      bottom: -38px;
      right: 38px;
@@ -406,7 +406,7 @@ ul.btn li:last-child {
      content: "";
      width:50px; 
      height:40px;
-     background: url(../images/cross.png);
+     background: #FFFFFF;
      background-repeat: no-repeat;
      bottom: -38px;
      left: 38px;
@@ -416,7 +416,7 @@ ul.btn li:last-child {
 }
 
 .text-bg h1 {
-     color: #fff;
+     color: #000000;
      font-size: 81px;
      line-height: 80px;
      padding-bottom: 45px;
@@ -424,7 +424,7 @@ ul.btn li:last-child {
 }
 
 .text-bg span {
-     color: #fff;
+     color: #000000;
      font-size: 42px;
      line-height: 50px;
      font-weight: normal;
@@ -479,7 +479,7 @@ ul.btn li:last-child {
 }
 
 #banner1 .carousel-indicators li.active {
-     background: #ffffff;
+     background: transparent;
 }
 
 #banner1 a.carousel-control-next,
