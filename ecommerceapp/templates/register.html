@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up Form</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'ecommerceapp/css/style2.css' %}">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <form action="register" method="POST">
+        <h3>Sign Up Here</h3>
+        {% csrf_token %}
+
+        <label for="Email">First Name</label>
+        <input type="text" placeholder="First name" name="first_name">
+
+         <label for="Email">Last Name</label>
+        <input type="text" placeholder="Last name" name="last_name">
+
+        <label for="Email">Email</label>
+        <input type="email" placeholder="Email" name="email">
+
+        <label for="Email">Phone Number</label>
+        <input type="text" placeholder="Phone number" name="phone_number">
+
+        <label for="Email">Password</label>
+        <input type="password" placeholder="Password" name="password">
+
+        <label for="Email">Confirm Password</label>
+        <input type="password" placeholder="Confirm Password" name="Confirm_Password">
+
+        <input type="submit">Sign Up</input><br>
+
+    </form>
+</body>
+</html>
+

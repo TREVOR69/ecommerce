@@ -62,23 +62,14 @@
                               <li class="nav-item active">
                                  <a class="nav-link" href="index.html">Home</a>
                               </li>
-<!--                              <li class="nav-item">-->
-<!--                                 <a class="nav-link" href="about.html">About</a>-->
-<!--                              </li>-->
                               <li class="nav-item">
-                                 <a class="nav-link" href="computer.html">Farm Product Categories</a>
+                                 <a class="nav-link" href="/all-products/">All Farm Product Categories</a>
                               </li>
                               <li class="nav-item">
-                                 <a class="nav-link" href="product.html">Products</a>
-                              </li>
-                              <li class="nav-item">
-                                 <a class="nav-link" href="contact.html">Contact Us</a>
+                                 <a class="nav-link" href="{% url 'ecommerceapp:mycart' %}">My Cart</a>
                               </li>
                               <li class="nav-item d_none">
-                                 <a class="nav-link" href="#"><i class="fa fa-search" aria-hidden="true"></i></a>
-                              </li>
-                              <li class="nav-item d_none">
-                                 <a class="nav-link" href="login.html">Login</a>
+                                 <a class="nav-link" href="{% url 'login' %}">Login</a>
                               </li>
                            </ul>
                         </div>
@@ -214,13 +205,13 @@ Honey, propolis and pollen are used to heal burn wounds, and they possess numero
                <div class="col-md-12">
                   <div class="our_products">
                      <div class="row">
-                        {% for product in products%}
+                        {% for p in Product_list %}
                         <div class="col-md-4 margin_bottom1">
                            <div class="product_box">
-                              <figure><img src="{{product.product_image.url}}"/></figure>
-                              <h4><strong>{{product.product_title}}</strong></h4>
-                              <h3><strong>{{product.price}}</strong></h3>
-                              <a class="read_more" href="#">Add to Cart</a>
+                              <figure><img src="{{p.product_image.url}}"/></figure>
+                              <h4><strong>{{p.product_title}}</strong></h4>
+                              <h3><strong>{{p.price}}</strong></h3>
+                              <a class="read_more" href="{% url 'ecommerceapp:addtocart' p.id %}">Add to Cart</a>
                            </div>
                         </div>
                         {% endfor %}
