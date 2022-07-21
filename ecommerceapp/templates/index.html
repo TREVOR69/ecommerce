@@ -63,14 +63,24 @@
                                  <a class="nav-link" href="index.html">Home</a>
                               </li>
                               <li class="nav-item">
-                                 <a class="nav-link" href="/all-products/">All Farm Product Categories</a>
+                                 <a class="nav-link" href="/all-products/">All Farm Product</a>
                               </li>
                               <li class="nav-item">
                                  <a class="nav-link" href="{% url 'ecommerceapp:mycart' %}">My Cart</a>
                               </li>
+                              {% if request.user.customer %}
+                             <a class="nav-link"> Welcome {{request.user.username}}!</a>
+                              <li class="nav-item d_none">
+                                 <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+                              </li>
+                              {% else %}
+                              <li class="nav-item">
+                                 <a class="nav-link" href="{% url 'ecommerceapp:registration' %}">Sign up</a>
+                              </li>
                               <li class="nav-item d_none">
                                  <a class="nav-link" href="{% url 'login' %}">Login</a>
                               </li>
+                              {% endif %}
                            </ul>
                         </div>
                      </nav>

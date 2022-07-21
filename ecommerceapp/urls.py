@@ -7,7 +7,8 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name="login"),
     path('all-products/', ProductsView.as_view(), name="allproducts"),
     path('all-products/product-details', ProductDetailView.as_view(), name="productdetail"),
-    # path('checkout/', views.ecommerceapp, name="checkout"),
+    path('registration/', RegistrationView.as_view(), name="registration"),
+    path('logout/', LogOutView.as_view(), name="logout"),
 
 
     path('add-to-cart-<int:pro_id>/', AddToCartView.as_view(), name="addtocart"),

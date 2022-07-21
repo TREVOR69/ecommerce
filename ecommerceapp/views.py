@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import *
-from django.views.generic import TemplateView, View, CreateView
+from django.views.generic import TemplateView, View, CreateView, FormView
 from django.urls import reverse_lazy
-from .forms import CheckOutForm
+from .forms import CheckOutForm, CustomerRegistrationForm, CustomerLoginForm
+from django.contrib.auth import authenticate, login, logout
 
 
 # Create your views here.
@@ -14,10 +15,6 @@ class HomeView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['Product_list'] = Product.objects.all()
         return context
-
-
-class LoginView(TemplateView):
-    template_name = 'login.html'
 
 
 class ProductsView(TemplateView):
@@ -160,7 +157,7 @@ class CheckOutView(CreateView):
     def form_valid(self, form):
         cart_id = self.request.session.get("cart_id")
         if cart_id:
-            cart_obj=Cart.objects.get(id=cart_id)
+            cart_obj = Cart.objects.get(id=cart_id)
             form.instance.cart = cart_obj
             form.instance.subtotal = cart_obj.total
             form.instance.discount = 0
@@ -169,4 +166,42 @@ class CheckOutView(CreateView):
             del self.request.session['cart_id']
         else:
             return redirect("ecommerceapp:index")
+        return super().form_valid(form)
+
+
+class RegistrationView(CreateView):
+    template_name = 'register.html'
+    form_class = CustomerRegistrationForm
+    success_url = reverse_lazy("ecommerceapp:index")
+
+    def form_valid(self, form):
+        username = form.cleaned_data.get("username")
+        password = form.cleaned_data.get("password")
+        email = form.cleaned_data.get("username")
+        user = User.objects.create_user(username, email, password)
+        form.instance.user = user
+        login(self.request, user)
+        return super().form_valid(form)
+
+
+class LogOutView(View):
+    def get(self, request):
+        logout(request)
+        return redirect("ecommerceapp:index")
+
+
+class LoginView(FormView):
+    template_name = 'login.html'
+    form_class = CustomerLoginForm
+    success_url = reverse_lazy("ecommerceapp:index")
+
+    def form_valid(self, form):
+        uname = form.cleaned_data.get("username")
+        pwd = form.cleaned_data.get("password")
+        usr = authenticate(username=uname, Password=pwd)
+        if usr is not None and usr.customer:
+            login(self.request, usr)
+        else:
+            return render(self.request, self.template_name, {"form": CustomerLoginForm, "error": "Wrong Username or Password!"})
+
         return super().form_valid(form)

@@ -15,25 +15,17 @@
         <div class="shape"></div>
         <div class="shape"></div>
     </div>
-    <form action="login" method="POST">
+    <form action="" method="POST">
         <h3>Login Here</h3>
         {% csrf_token %}
-
-        <label for="username">Username</label>
-        <input type="text" placeholder="Email or Phone" name="username">
-
-        <label for="password">Password</label>
-        <input type="password" placeholder="Password" name="password">
-
-        <input type="submit">Log In</input><br>
-
-
+        {{form}}
+       <button>Log in</button>
+        <p><a href="/registration/">Sign Up HERE</a></p>
+        {% if error %}
+        <li style="color:red">{{error}}</li>
+        {% endif %}
     </form>
-    <div>
-        {% for messages in message%}
-        <h3>{{message}}</h3>
-        {% endfor %}
-    </div>
+
 </body>
 </html>
 
