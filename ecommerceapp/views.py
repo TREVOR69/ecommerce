@@ -49,7 +49,7 @@ class AddToCartView(TemplateView):
         # get product
         product_obj = Product.objects.get(id=product_id)
 
-        # check if cart exixts
+        # check if cart exists
         cart_id = self.request.session.get("cart_id", None)
         if cart_id:
             cart_obj = Cart.objects.get(id=cart_id)
@@ -198,10 +198,10 @@ class LoginView(FormView):
     def form_valid(self, form):
         uname = form.cleaned_data.get("username")
         pwd = form.cleaned_data.get("password")
-        usr = authenticate(username=uname, Password=pwd)
-        if usr is not None and usr.customer:
+        usr = authenticate(username=uname, password=pwd)
+        if usr is not None and Customer.objects.filter(user=usr).exists():
             login(self.request, usr)
         else:
-            return render(self.request, self.template_name, {"form": CustomerLoginForm, "error": "Wrong Username or Password!"})
+            return render(self.request, self.template_name, {"form": self.form_class, "error": "Wrong Username or Password!"})
 
         return super().form_valid(form)
