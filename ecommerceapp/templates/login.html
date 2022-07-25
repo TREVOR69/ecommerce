@@ -20,7 +20,7 @@
         {% csrf_token %}
         {{form}}
        <button>Log in</button>
-        <p><a href="/registration/">Sign Up HERE</a></p>
+        <p><a href="/registration/{%if request.GET.next%}?next={{request.GET.next}}{% endif %}">Sign Up HERE</a></p>
         {% if error %}
         <li style="color:red">{{error}}</li>
         {% endif %}

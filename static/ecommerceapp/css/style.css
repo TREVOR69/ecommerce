@@ -381,7 +381,7 @@ ul.btn li:last-child {
 /** banner section **/
 
 .banner_main {
-     background: url(../images/honeycomb-bg.jpg);
+     /*background: url(../images/bee.jpg);*/
      background-repeat: no-repeat;
      min-height: 900px;
      background-size: 100% 100%;
@@ -491,7 +491,7 @@ ul.btn li:last-child {
      font-size: 17px;
      background-color: transparent;
      border: #fff solid 2px;
-     color: #fff;
+     color: #000000;
      font-weight: 500;
      padding: 14px 0px;
      width: 100%;
