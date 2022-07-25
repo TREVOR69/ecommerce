@@ -381,7 +381,7 @@ ul.btn li:last-child {
 /** banner section **/
 
 .banner_main {
-     /*background: url(../images/bee.jpg);*/
+     background: url(../images/bee.jpg);
      background-repeat: no-repeat;
      min-height: 900px;
      background-size: 100% 100%;
