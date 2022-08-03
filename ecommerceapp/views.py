@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import *
-from django.views.generic import TemplateView, View, CreateView, FormView
+from django.views.generic import TemplateView, View, CreateView, FormView, DetailView
 from django.urls import reverse_lazy
 from .forms import CheckOutForm, CustomerRegistrationForm, CustomerLoginForm
 from django.contrib.auth import authenticate, login, logout
+from django_daraja.mpesa.core import MpesaClient
 
 
 # Create your views here.
@@ -89,7 +90,7 @@ class AddToCartView(EcomMixin, TemplateView):
             cart_obj.total += product_obj.price
             cart_obj.save()
 
-        return context
+            return context
 
 
 class ManageCartView(EcomMixin, View):
@@ -136,7 +137,7 @@ class EmptyCartView(EcomMixin, View):
         return redirect("ecommerceapp:mycart")
 
 
-class MyCartView(EcomMixin,TemplateView):
+class MyCartView(EcomMixin, TemplateView):
     template_name = 'mycart.html'
 
     def get_context_data(self, **kwargs):
@@ -188,6 +189,23 @@ class CheckOutView(EcomMixin, CreateView):
         return super().form_valid(form)
 
 
+class Views(EcomMixin):
+    def index(request):
+        cl = MpesaClient()
+        # Use a Safaricom phone number that you have access to, for you to be able to view the prompt.
+        phone_number = '0728270260'
+        amount = 1
+        account_reference = 'reference'
+        transaction_desc = 'Description'
+        callback_url = request.build_absolute_uri(reverse('mpesa_stk_push_callback'))
+        response = cl.stk_push(phone_number, amount, account_reference, transaction_desc, callback_url)
+        return HttpResponse(response)
+
+    def stk_push_callback(request):
+        data = request.body
+        # You can do whatever you want with the notification received from MPESA here.
+
+
 class RegistrationView(CreateView):
     template_name = 'register.html'
     form_class = CustomerRegistrationForm
@@ -223,12 +241,15 @@ class LoginView(FormView):
 
     def form_valid(self, form):
         uname = form.cleaned_data.get("username")
-        pwd = form.cleaned_data.get("password")
+        pwd = form.cleaned_data["password"]
         usr = authenticate(username=uname, password=pwd)
         if usr is not None and Customer.objects.filter(user=usr).exists():
             login(self.request, usr)
         else:
-            return render(self.request, self.template_name, {"form": self.form_class, "error": "Wrong Username or Password!"})
+            return render(self.request, self.template_name,
+                          {"form": self.form_class, "error": "Wrong Username or Password!"})
+
+        return super().form_valid(form)
 
     def get_success_url(self):
         if "next" in self.request.GET:
@@ -236,3 +257,38 @@ class LoginView(FormView):
             return next_url
         else:
             return self.success_url
+
+
+class CustomerProfileView(FormView):
+    template_name = 'profile.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated and request.user.customer:
+            pass
+        else:
+            return redirect("/login/?next=/profile/")
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        customer = self.request.user.customer
+        context['customer'] = customer
+        orders = Order.objects.filter(cart__customer=customer)
+        context["orders"] = orders
+        return context
+
+
+class CustomerOrderDetailView(DetailView):
+    template_name = "customerorderdetail.html"
+    model = Order
+    context_object_name = "ord_obj"
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated and Customer.objects.filter(user=request.user).exists():
+            order_id = self.kwargs["pk"]
+            order = Order.objects.get(id=order_id)
+            if request.user.customer != order.cart.customer:
+                return redirect("ecommerceapp:customerprofile")
+        else:
+            return redirect("/login/?next=/profile/")
+        return super().dispatch(request, *args, **kwargs)

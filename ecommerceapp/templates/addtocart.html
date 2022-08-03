@@ -6,10 +6,16 @@
     <title>Add to Cart</title>
 </head>
 <body>
-<div class="container">
+<nav>
+    <ul>
+    <li><a href="/all-products/">Back To Products Page</a></li>
+    <li><a href="{% url 'ecommerceapp:index' %}">Back To Home page</a></li>
+    <li><a href="/my-cart/">View Cart</a></li>
+    <li><a href="/checkout/">CheckOut</a></li>
+    </ul>
+</nav>
+<div>
     <h3>Product added to cart successfully</h3>
-    <a class="read_more" href="/all-products/">Back To Products</a>
 </div>
-
 </body>
 </html>
