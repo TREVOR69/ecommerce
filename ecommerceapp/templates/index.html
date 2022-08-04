@@ -218,7 +218,7 @@ Honey, propolis and pollen are used to heal burn wounds, and they possess numero
                         {% for p in Product_list %}
                         <div class="col-md-4 margin_bottom1">
                            <div class="product_box">
-                              <figure><img src="{{p.product_image.photos.url}}"/></figure>
+                              <figure><img src="{{p.product_image.url}}"/></figure>
                               <h4><strong>{{p.product_title}}</strong></h4>
                               <h3><strong>{{p.price}}</strong></h3>
                               <a class="read_more" href="{% url 'ecommerceapp:addtocart' p.id %}">Add to Cart</a>
