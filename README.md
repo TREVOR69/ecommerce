@@ -26,6 +26,9 @@ Step 6: Run Development server $ python manage.py runserver
 ## System Description
 This web app is designed to sell farm products. The admin has a panel as to where they can add products, check orders, customers registered in the system and also check records.The system also creates a profile for the customer as soon as you login and keeps track of all purchases made by the customer.
 
+## Live website link
+https://e-soko-ecommerce.herokuapp.com/
+
 ## Contributing
 
 Contributions are always welcome!
