@@ -21,5 +21,5 @@ urlpatterns = [
     path('customerorderdetail/', CustomerOrderDetailView.as_view(), name="customerorderdetail"),
     path("profile/order-<int:pk>/", CustomerOrderDetailView.as_view(), name="customerorderdetail"),
 
-    path('daraja/stk-push', Views.stk_push_callback, name='mpesa_stk_push_callback'),
+
 ]
